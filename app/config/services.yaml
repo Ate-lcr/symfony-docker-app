@@ -19,6 +19,13 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    aropixel.admin_configure_menu_listener:
+        autowire: true
+        class: App\AdminMenu\Menu\Builder\MenuBuilder
+        tags:
+            - { name: kernel.event_listener, event: aropixel.admin.build.menu, method: buildMenu }

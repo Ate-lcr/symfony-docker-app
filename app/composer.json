@@ -1,22 +1,40 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "doctrine/dbal": "^3",
-        "doctrine/doctrine-bundle": "^2.12",
-        "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^3.1",
-        "symfony/console": "7.0.*",
-        "symfony/dotenv": "7.0.*",
+        "aropixel/admin-bundle": "dev-release/v3.0.0",
+        "aropixel/blog-bundle": "dev-release/v3.0.0",
+        "aropixel/menu-bundle": "dev-release/v3.0.0",
+        "aropixel/page-bundle": "dev-release/v3.0.0",
+        "doctrine/doctrine-bundle": "2.8.3",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "knplabs/knp-paginator-bundle": "^6.3",
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/apache-pack": "^1.0",
+        "symfony/asset": "6.3.*",
+        "symfony/console": "6.3.*",
+        "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.0.*",
-        "symfony/runtime": "7.0.*",
-        "symfony/yaml": "7.0.*"
+        "symfony/form": "6.3.*",
+        "symfony/framework-bundle": "6.3.*",
+        "symfony/password-hasher": "6.3.*",
+        "symfony/runtime": "6.3.*",
+        "symfony/security-bundle": "6.3.*",
+        "symfony/translation": "6.3.*",
+        "symfony/uid": "6.3.*",
+        "symfony/validator": "6.3.*",
+        "symfony/web-profiler-bundle": "6.3.*",
+        "symfony/webpack-encore-bundle": "^2.0",
+        "symfony/yaml": "6.3.*",
+        "twig/extra-bundle": "^3.7",
+        "twig/string-extra": "^3.7",
+        "webmozart/assert": "^1.11"
     },
     "config": {
         "allow-plugins": {
@@ -64,10 +82,11 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "6.3.*"
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.57"
+        "symfony/debug-bundle": "6.3.*",
+        "symfony/maker-bundle": "^1.49"
     }
 }
