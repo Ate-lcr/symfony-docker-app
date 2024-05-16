@@ -1,21 +1,20 @@
-version: "3.8"
 services:
     # Mysql database container
     db:
         image: mysql
-        container_name: app_db
+        container_name: adminbundle_db
         restart: always
         volumes:
             - db-data:/var/lib/mysql
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         networks:
-            - tutorial
+            - adminbundle
 
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
-        container_name: app_phpmyadmin
+        container_name: adminbundle_phpmyadmin
         restart: always
         depends_on:
             - db
@@ -24,23 +23,37 @@ services:
         environment:
             PMA_HOST: db
         networks:
-            - tutorial
+            - adminbundle
 
-    # Symfony apache project container
-    www:
-        build: docker/php
-        container_name: app_symfony
-        ports:
-          - "8741:80"
+    php:
+        container_name: adminbundle_php
+        build:
+            context: ./docker
+            dockerfile: Dockerfile-php
         volumes:
-            - ./docker/php/vhosts:/etc/apache2/sites-enabled
-            - ./:/var/www
-        restart: always
+            - ../:/var/www
         networks:
-            - tutorial
+            - adminbundle
+
+    nginx:
+        container_name: adminbundle_nginx
+        build:
+            context: ./docker
+            dockerfile: Dockerfile-nginx
+        volumes:
+            - ../:/var/www
+        depends_on:
+            - php
+        ports:
+            - 8000:80
+        networks:
+            - adminbundle
 
 networks:
-    tutorial:
+    adminbundle:
 
 volumes:
     db-data:
+    symfony_app_var:
+    symfony_app_vendor:
+
