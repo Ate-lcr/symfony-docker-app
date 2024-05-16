@@ -17,21 +17,21 @@
         "knplabs/knp-paginator-bundle": "^6.3",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/apache-pack": "^1.0",
-        "symfony/asset": "6.3.*",
-        "symfony/console": "6.3.*",
-        "symfony/dotenv": "6.3.*",
+        "symfony/asset": "6.4.*",
+        "symfony/console": "6.4.*",
+        "symfony/dotenv": "6.4.*",
         "symfony/flex": "^2",
-        "symfony/form": "6.3.*",
-        "symfony/framework-bundle": "6.3.*",
-        "symfony/password-hasher": "6.3.*",
-        "symfony/runtime": "6.3.*",
-        "symfony/security-bundle": "6.3.*",
-        "symfony/translation": "6.3.*",
-        "symfony/uid": "6.3.*",
-        "symfony/validator": "6.3.*",
-        "symfony/web-profiler-bundle": "6.3.*",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/password-hasher": "6.4.*",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/translation": "6.4.*",
+        "symfony/uid": "6.4.*",
+        "symfony/validator": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*",
         "symfony/webpack-encore-bundle": "^2.0",
-        "symfony/yaml": "6.3.*",
+        "symfony/yaml": "6.4.*",
         "twig/extra-bundle": "^3.7",
         "twig/string-extra": "^3.7",
         "webmozart/assert": "^1.11"
@@ -82,11 +82,11 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.3.*"
+            "require": "6.4.*"
         }
     },
     "require-dev": {
-        "symfony/debug-bundle": "6.3.*",
+        "symfony/debug-bundle": "6.4.*",
         "symfony/maker-bundle": "^1.49"
     }
 }
