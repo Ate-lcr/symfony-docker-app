@@ -30,8 +30,8 @@ function build(): void
     docker_compose($command, withBuilder: false);
 }
 
-#[AsTask(description: 'Builds and starts the infrastructure', aliases: ['up'])]
-function up(): void
+#[AsTask(description: 'Builds and starts the infrastructure', aliases: ['start'])]
+function start(): void
 {
     try {
         docker_compose(['up', '--remove-orphans', '--detach', '--no-build']);
@@ -90,6 +90,21 @@ function destroy(
     }
 
     docker_compose(['down', '--remove-orphans', '--volumes', '--rmi=local'], withBuilder: false);
+}
+
+
+#[AsTask(description: 'Installs the Aropixel adminBundle suite (admin, page , blog, contact)', aliases: ['init_admin'])]
+function init_adminBundle(): void
+{
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git AdminBundle', workDir: '/var/www/symfony-docker-app/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git PageBundle', workDir: '/var/www/symfony-docker-app/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git BlogBundle', workDir: '/var/www/symfony-docker-app/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git ContactBundle', workDir: '/var/www/symfony-docker-app/aropixel');
+    docker_compose_run('bin/console doctrine:schema:update --force ', workDir: '/var/www/symfony-docker-app/app');
+
+    docker_compose_run('npm run dev', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('bin/console assets:install --relative', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('bin/console aropixel:admin:setup', workDir: '/var/www/symfony-docker-app/app');
 }
 
 

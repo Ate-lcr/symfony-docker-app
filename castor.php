@@ -24,10 +24,10 @@ function create_default_variables(): array
 }
 
 #[AsTask(description: 'Builds and starts the infrastructure, then install the application (composer, yarn, ...)')]
-function start(): void
+function build(): void
 {
     infra\build();
-    infra\up();
+    infra\start();
     cache_clear();
     install();
     migrate();
