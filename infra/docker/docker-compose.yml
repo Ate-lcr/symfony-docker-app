@@ -39,7 +39,7 @@ services:
         depends_on:
             - php
         ports:
-            - 8000:80
+            - 80:80
         networks:
             - adminbundle
 
