@@ -2,7 +2,6 @@ services:
     # Mysql database container
     db:
         image: mysql
-        container_name: adminbundle_db
         restart: always
         volumes:
             - db-data:/var/lib/mysql
@@ -14,7 +13,6 @@ services:
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
-        container_name: adminbundle_phpmyadmin
         restart: always
         depends_on:
             - db
@@ -26,22 +24,18 @@ services:
             - adminbundle
 
     php:
-        container_name: adminbundle_php
         build:
-            context: ./docker
-            dockerfile: Dockerfile-php
+            context: services/php
         volumes:
-            - ../:/var/www
+            - ../../app:/var/www
         networks:
             - adminbundle
 
     nginx:
-        container_name: adminbundle_nginx
         build:
-            context: ./docker
-            dockerfile: Dockerfile-nginx
+            context: services/nginx
         volumes:
-            - ../:/var/www
+            - ../../app:/var/www
         depends_on:
             - php
         ports:

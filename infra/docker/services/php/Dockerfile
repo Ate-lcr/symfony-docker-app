@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gd \
         intl
 
-COPY build/php/opcache.ini /usr/local/etc/php/conf.d/
-COPY build/php/custom.ini /usr/local/etc/php/conf.d/
+COPY opcache.ini /usr/local/etc/php/conf.d/
+COPY custom.ini /usr/local/etc/php/conf.d/
 
 RUN apt-get update \
     && apt-get install -qq -y --no-install-recommends \

@@ -65,7 +65,7 @@ function create_default_context(): Context
         'env' => $_SERVER['CI'] ?? false ? 'ci' : 'dev',
     ];
 
-    if (file_exists($data['root_dir'] . '/docker/docker-compose.override.yml')) {
+    if (file_exists($data['root_dir'] . '/infra/docker/docker-compose.override.yml')) {
         $data['docker_compose_files'][] = 'docker-compose.override.yml';
     }
 
@@ -179,11 +179,11 @@ function docker_compose(array $subCommand, Context $c = null, bool $withBuilder 
 
     foreach (variable('docker_compose_files') as $file) {
         $command[] = '-f';
-        $command[] = variable('root_dir') . '/' . $file;
+        $command[] = variable('root_dir') . '/infra/docker/' . $file;
     }
     if ($withBuilder) {
         $command[] = '-f';
-        $command[] = variable('root_dir') . '/docker-compose.yml';
+        $command[] = variable('root_dir') . '/infra/docker/docker-compose.yml';
     }
 
     $command = array_merge($command, $subCommand);

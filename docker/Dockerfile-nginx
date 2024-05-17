@@ -1,2 +1,0 @@
-FROM nginx:alpine
-COPY build/nginx/default.conf /etc/nginx/nginx.conf
