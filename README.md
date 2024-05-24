@@ -38,7 +38,7 @@ The Docker infrastructure provides a web stack with:
     - Node
     - Yarn / NPM
 
-## Contribute
+## Start coding !!
 
 ### The first time : build the stack
 
