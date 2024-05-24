@@ -60,9 +60,10 @@ function clone_bundles(): void
 #[AsTask(description: 'Installs the application (composer, yarn, ...)', namespace: 'app', aliases: ['install'])]
 function install_symfony(): void
 {
-    docker_compose_run('composer install -n --prefer-dist --optimize-autoloader', workDir: '/var/www/aropixel-dev-stack/app');
-    docker_compose_run('yarn', workDir: '/var/www/aropixel-dev-stack/app');
-    docker_compose_run('yarn encore dev', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('composer create-project "symfony/skeleton ^"'.variable('SYMFONY_VERSION').' app --prefer-dist --no-progress --no-interaction --no-install', workDir: '/var/www');
+    docker_compose_run('composer install -n --prefer-dist --optimize-autoloader', workDir: '/var/www/app');
+    docker_compose_run('yarn', workDir: '/var/www/app');
+    docker_compose_run('yarn encore dev', workDir: '/var/www/app');
 
 }
 
@@ -75,14 +76,14 @@ function cache_clear(): void
 #[AsTask(description: 'Migrates database schema', namespace: 'app:db', aliases: ['migrate'])]
 function migrate(): void
 {
-    docker_compose_run('./bin/console doctrine:database:create --if-not-exists', workDir: '/var/www/aropixel-dev-stack/app');
-    docker_compose_run('bin/console doctrine:migration:migrate -n --allow-no-migration', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('./bin/console doctrine:database:create --if-not-exists', workDir: '/var/www/app');
+    docker_compose_run('bin/console doctrine:migration:migrate -n --allow-no-migration', workDir: '/var/www/app');
 }
 
 
 #[AsTask(description: 'Compile the assets', namespace: 'infra:assets', name: 'compile', aliases: ['compile-assets'])]
 function compile_assets(): void
 {
-    docker_compose_run('npm run dev', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('npm run dev', workDir: '/var/www/app');
 }
 
