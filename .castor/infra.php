@@ -31,7 +31,7 @@ function build(): void
 }
 
 #[AsTask(description: 'Builds and starts the infrastructure', aliases: ['start'])]
-function start(): void
+function up(): void
 {
     try {
         docker_compose(['up', '--remove-orphans', '--detach', '--no-build']);

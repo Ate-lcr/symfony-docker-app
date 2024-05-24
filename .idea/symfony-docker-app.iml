@@ -6,6 +6,10 @@
       <sourceFolder url="file://$MODULE_DIR$/app/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/app/symfony-docker-app/aropixel/AdminBundle/" isTestSource="false" packagePrefix="Aropixel\AdminBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/app/symfony-docker-app/aropixel/BlogBundle/" isTestSource="false" packagePrefix="Aropixel\AdminBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/app/symfony-docker-app/aropixel/ContactBundle/" isTestSource="false" packagePrefix="Aropixel\AdminBundle\" />
+      <sourceFolder url="file://$MODULE_DIR$/app/symfony-docker-app/aropixel/PageBundle/" isTestSource="false" packagePrefix="Aropixel\AdminBundle\" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/doctrine/cache" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/doctrine/collections" />

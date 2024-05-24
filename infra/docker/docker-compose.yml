@@ -2,7 +2,6 @@ services:
     # Mysql database container
     db:
         image: mysql
-        restart: always
         volumes:
             - db-data:/var/lib/mysql
         environment:
@@ -13,7 +12,6 @@ services:
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
-        restart: always
         depends_on:
             - db
         ports:
@@ -27,7 +25,7 @@ services:
         build:
             context: services/php
         volumes:
-            - ../../app:/var/www
+            - ../..:/var/www
         networks:
             - adminbundle
 
@@ -35,7 +33,7 @@ services:
         build:
             context: services/nginx
         volumes:
-            - ../../app:/var/www
+            - ../..:/var/www/
         depends_on:
             - php
         ports:

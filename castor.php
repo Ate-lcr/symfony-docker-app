@@ -24,12 +24,13 @@ function create_default_variables(): array
 }
 
 #[AsTask(description: 'Builds and starts the infrastructure, then install the application (composer, yarn, ...)', aliases: ['clone'])]
-function build(): void
+function build_stack(): void
 {
     infra\build();
-    infra\start();
+    infra\up();
+    install_symfony();
+    clone_bundles();
     cache_clear();
-    install();
     migrate();
 
     notify('The stack is now up and running.');
@@ -38,30 +39,30 @@ function build(): void
     about();
 }
 
-#[AsTask(description: 'Installs the Aropixel adminBundle suite (admin, page , blog, contact)', aliases: ['init'])]
-function init(): void
+#[AsTask(description: 'Clone the Aropixel adminBundle suite (admin, page , blog, contact)', aliases: ['stack:clone'])]
+function clone_bundles(): void
 {
-    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git AdminBundle', workDir: '/var/www/symfony-docker-app/aropixel');
-    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git PageBundle', workDir: '/var/www/symfony-docker-app/aropixel');
-    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git BlogBundle', workDir: '/var/www/symfony-docker-app/aropixel');
-    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git ContactBundle', workDir: '/var/www/symfony-docker-app/aropixel');
-    docker_compose_run('bin/console doctrine:schema:update --force ', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('git config --global --add safe.directory /home/kby/www/symfony-docker-app/aropixel/AdminBundle', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('git config --global --add safe.directory /home/kby/www/symfony-docker-app/aropixel/PageBundle', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('git config --global --add safe.directory /home/kby/www/symfony-docker-app/aropixel/BlogBundle', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('git config --global --add safe.directory /home/kby/www/symfony-docker-app/aropixel/ContactBundle', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git AdminBundle', workDir: '/var/www/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git PageBundle', workDir: '/var/www/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git BlogBundle', workDir: '/var/www/aropixel');
+    docker_compose_run('git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/admin-bundle.git ContactBundle', workDir: '/var/www/aropixel');
+    docker_compose_run('bin/console doctrine:schema:update --force ', workDir: '/var/www/app');
+    docker_compose_run('git config --global --add safe.directory .', workDir: '/var/www/aropixel/AdminBundle');
+    docker_compose_run('git config --global --add safe.directory .', workDir: '/var/www/aropixel/PageBundle');
+    docker_compose_run('git config --global --add safe.directory .', workDir: '/var/www/aropixel/BlogBundle');
+    docker_compose_run('git config --global --add safe.directory .', workDir: '/var/www/aropixel/ContactBundle');
 
-    docker_compose_run('npm run dev', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('bin/console assets:install --relative', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('bin/console aropixel:admin:setup', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('npm run dev', workDir: '/var/www/app');
+    docker_compose_run('bin/console assets:install --relative', workDir: '/var/www/app');
+    docker_compose_run('bin/console aropixel:admin:setup', workDir: '/var/www/app');
 }
 
 #[AsTask(description: 'Installs the application (composer, yarn, ...)', namespace: 'app', aliases: ['install'])]
-function install(): void
+function install_symfony(): void
 {
-    docker_compose_run('composer install -n --prefer-dist --optimize-autoloader', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('yarn', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('yarn encore dev', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('composer install -n --prefer-dist --optimize-autoloader', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('yarn', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('yarn encore dev', workDir: '/var/www/aropixel-dev-stack/app');
 
 }
 
@@ -74,14 +75,14 @@ function cache_clear(): void
 #[AsTask(description: 'Migrates database schema', namespace: 'app:db', aliases: ['migrate'])]
 function migrate(): void
 {
-    docker_compose_run('./bin/console doctrine:database:create --if-not-exists', workDir: '/var/www/symfony-docker-app/app');
-    docker_compose_run('bin/console doctrine:migration:migrate -n --allow-no-migration', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('./bin/console doctrine:database:create --if-not-exists', workDir: '/var/www/aropixel-dev-stack/app');
+    docker_compose_run('bin/console doctrine:migration:migrate -n --allow-no-migration', workDir: '/var/www/aropixel-dev-stack/app');
 }
 
 
 #[AsTask(description: 'Compile the assets', namespace: 'infra:assets', name: 'compile', aliases: ['compile-assets'])]
 function compile_assets(): void
 {
-    docker_compose_run('npm run dev', workDir: '/var/www/symfony-docker-app/app');
+    docker_compose_run('npm run dev', workDir: '/var/www/aropixel-dev-stack/app');
 }
 
