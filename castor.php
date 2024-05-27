@@ -20,10 +20,11 @@ function create_default_variables(): array
         'project_name' => $projectName,
         'root_domain' => "adminbundle.local",
         'php_version' => '8.2',
+        'symfony_version' => '6.4',
     ];
 }
 
-#[AsTask(description: 'Builds and starts the infrastructure, then install the application (composer, yarn, ...)', aliases: ['clone'])]
+#[AsTask(description: 'Builds and starts the infrastructure, then install the application (composer, yarn, ...)', aliases: ['stack:build'])]
 function build_stack(): void
 {
     infra\build();
@@ -60,11 +61,8 @@ function clone_bundles(): void
 #[AsTask(description: 'Installs the application (composer, yarn, ...)', namespace: 'app', aliases: ['install'])]
 function install_symfony(): void
 {
-    docker_compose_run('composer create-project "symfony/skeleton ^"'.variable('SYMFONY_VERSION').' app --prefer-dist --no-progress --no-interaction --no-install', workDir: '/var/www');
+    docker_compose_run('composer create-project "symfony/skeleton ^"'.variable('symfony_version').' app --prefer-dist --no-progress --no-interaction --no-install', workDir: '/var/www');
     docker_compose_run('composer install -n --prefer-dist --optimize-autoloader', workDir: '/var/www/app');
-    docker_compose_run('yarn', workDir: '/var/www/app');
-    docker_compose_run('yarn encore dev', workDir: '/var/www/app');
-
 }
 
 #[AsTask(description: 'Clear the application cache', namespace: 'app', aliases: ['cache-clear'])]
