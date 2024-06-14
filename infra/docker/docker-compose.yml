@@ -1,5 +1,5 @@
 volumes:
-    postgres-data: {}
+    db-data: {}
 
 services:
     router:
@@ -16,7 +16,7 @@ services:
             context: services/php
             target: frontend
         depends_on:
-            - postgres
+            - db
         volumes:
             - "../..:/var/www:cached"
         environment:
@@ -33,22 +33,20 @@ services:
             - "traefik.http.routers.${PROJECT_NAME}-frontend-unsecure.middlewares=redirect-to-https@file"
 
 
-    postgres:
-        image: postgres:16
-        environment:
-            - POSTGRES_USER=app
-            - POSTGRES_PASSWORD=app
+    # Mysql database container
+    db:
+        image: mysql
         volumes:
-            - postgres-data:/var/lib/postgresql/data
-        profiles:
-            - default
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
         depends_on:
-            - postgres
+            - db
         ports:
             - 8090:80
         environment:
-            PMA_HOST: postgres
+            PMA_HOST: db

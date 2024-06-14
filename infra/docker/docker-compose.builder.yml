@@ -7,7 +7,7 @@ services:
             context: services/php
             target: builder
         depends_on:
-            - postgres
+            - db
         environment:
             - COMPOSER_MEMORY_LIMIT=-1
             - UID=${USER_ID}
