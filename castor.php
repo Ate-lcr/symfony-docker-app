@@ -23,7 +23,7 @@ const BUNDLES = [
     'BlogBundle' => 'blog-bundle',
     'PageBundle' => 'page-bundle',
     'MenuBundle' => 'menu-bundle',
-    'ContactBundle' => 'contact-bundle',
+//    'ContactBundle' => 'contact-bundle',
 ];
 
 /**
@@ -78,7 +78,7 @@ function clone_stack(): void
     foreach (BUNDLES as $dir => $repo) {
         if (!file_exists("{$basePath}/{$dir}")) {
             io()->section("Clone {$dir}");
-            docker_compose_run("git clone -b release/v3.0.0 --single-branch https://github.com/aropixel/{$repo}.git {$dir}", workDir: '/var/www/aropixel');
+            docker_compose_run("git clone -b release/symfony7 --single-branch https://github.com/aropixel/{$repo}.git {$dir}", workDir: '/var/www/aropixel');
             docker_compose_run('git config --global --add safe.directory .', workDir: "/var/www/aropixel/{$dir}");
             docker_compose_run("composer config repositories.aropixel/{$repo} path ../aropixel/{$dir}", workDir: "/var/www/app");
         }
