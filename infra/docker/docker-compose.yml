@@ -1,51 +1,54 @@
+volumes:
+    postgres-data: {}
+
 services:
-    # Mysql database container
-    db:
-        image: mysql
+    router:
+        build: services/router
         volumes:
-            - db-data:/var/lib/mysql
+            - "/var/run/docker.sock:/var/run/docker.sock"
+            - "./services/router/certs:/etc/ssl/certs"
+        network_mode: host
+        profiles:
+            - default
+
+    frontend:
+        build:
+            context: services/php
+            target: frontend
+        depends_on:
+            - postgres
+        volumes:
+            - "../..:/var/www:cached"
         environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        networks:
-            - adminbundle
+            - "PHP_VERSION=${PHP_VERSION}"
+        profiles:
+            - default
+        labels:
+            - "traefik.enable=true"
+            - "project-name=${PROJECT_NAME}"
+            - "traefik.http.routers.${PROJECT_NAME}-frontend.rule=Host(${PROJECT_DOMAINS})"
+            - "traefik.http.routers.${PROJECT_NAME}-frontend.tls=true"
+            - "traefik.http.routers.${PROJECT_NAME}-frontend-unsecure.rule=Host(${PROJECT_DOMAINS})"
+            # Comment the next line to be able to access frontend via HTTP instead of HTTPS
+            - "traefik.http.routers.${PROJECT_NAME}-frontend-unsecure.middlewares=redirect-to-https@file"
+
+
+    postgres:
+        image: postgres:16
+        environment:
+            - POSTGRES_USER=app
+            - POSTGRES_PASSWORD=app
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        profiles:
+            - default
 
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
         depends_on:
-            - db
+            - postgres
         ports:
-            - 8080:80
+            - 8090:80
         environment:
-            PMA_HOST: db
-        networks:
-            - adminbundle
-
-    php:
-        build:
-            context: services/php
-        volumes:
-            - ../..:/var/www
-        networks:
-            - adminbundle
-
-    nginx:
-        build:
-            context: services/nginx
-        volumes:
-            - ../..:/var/www/
-        depends_on:
-            - php
-        ports:
-            - 80:80
-        networks:
-            - adminbundle
-
-networks:
-    adminbundle:
-
-volumes:
-    db-data:
-    symfony_app_var:
-    symfony_app_vendor:
-
+            PMA_HOST: postgres
