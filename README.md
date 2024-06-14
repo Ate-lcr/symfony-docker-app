@@ -45,7 +45,7 @@ The Docker infrastructure provides a web stack with:
 Build & launch the stack by running this command:
 
 ```bash
-castor stack:build
+castor start
 ```
 
 > [!NOTE]
@@ -62,7 +62,7 @@ You need to go home. Take a rest !
 Stop your contributing stack by running this command:
 
 ```bash
-castor stack:stop
+castor stop
 ```
 
 
@@ -72,5 +72,5 @@ We knew you would come back.
 Start your contributing stack again by running this command:
 
 ```bash
-castor stack:up
+castor up
 ```

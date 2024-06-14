@@ -67,11 +67,12 @@ function start(): void
 function clone_stack(): void
 {
     $basePath = sprintf('%s/app', variable('root_dir'));
-    if (!file_exists($basePath)) {
+    if (!is_file("{$basePath}/composer.json")) {
         io()->section('Create symfony app');
         symfony();
     }
 
+    docker_compose_run('mkdir -p aropixel', workDir: '/var/www');
     $basePath = sprintf('%s/aropixel', variable('root_dir'));
 
     foreach (BUNDLES as $dir => $repo) {

@@ -302,7 +302,7 @@ function create_default_context(): Context
         'project_name' => 'app',
         'root_domain' => 'app.test',
         'extra_domains' => [],
-        'project_directory' => 'application',
+        'project_directory' => 'app',
         'php_version' => '8.2',
         'docker_compose_files' => [
             'docker-compose.yml',
