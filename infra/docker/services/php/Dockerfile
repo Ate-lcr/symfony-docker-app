@@ -30,9 +30,11 @@ RUN apt-get update \
         "php${PHP_VERSION}-cli" \
         "php${PHP_VERSION}-common" \
         "php${PHP_VERSION}-curl" \
+        "php${PHP_VERSION}-gd" \
         "php${PHP_VERSION}-iconv" \
         "php${PHP_VERSION}-intl" \
         "php${PHP_VERSION}-mbstring" \
+        "php${PHP_VERSION}-mysql" \
         "php${PHP_VERSION}-pgsql" \
         "php${PHP_VERSION}-uuid" \
         "php${PHP_VERSION}-xml" \
@@ -116,6 +118,6 @@ RUN mkdir -p "/home/app/.composer/cache" \
     && chown app: /home/app/.composer -R
 
 # Third party tools
-ENV PATH="$PATH:/var/www/tools/bin"
+ENV PATH="$PATH:/var/www/tools/php-cs-fixer/vendor/bin:/var/www/tools/phpstan/vendor/bin"
 
 WORKDIR /var/www/app

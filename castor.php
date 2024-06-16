@@ -90,6 +90,7 @@ function install(): void
 {
     docker_compose_run('composer install', workDir: '/var/www/app');
     docker_compose_run('cp -f ../infra/files/bundles.php config/', workDir: '/var/www/app');
+    docker_compose_run('cp -f ../infra/files/.env .', workDir: '/var/www/app');
 
     foreach (BUNDLES as $repo) {
         docker_compose_run("composer require aropixel/{$repo} *@dev -n", workDir: '/var/www/app');
