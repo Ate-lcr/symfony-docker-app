@@ -27,6 +27,7 @@ function install(): void
 
     docker_compose_run('composer install -o', workDir: '/var/www/tools/php-cs-fixer');
     docker_compose_run('composer install -o', workDir: '/var/www/tools/phpstan');
+    docker_compose_run('composer install -o', workDir: '/var/www/tools/rector');
 }
 
 // #[AsTask(description: 'Runs PHPUnit', aliases: ['phpunit'])]
@@ -61,4 +62,15 @@ function cs(bool $dryRun = false): int
     }
 
     return docker_exit_code('php-cs-fixer fix', workDir: '/var/www');
+}
+
+
+#[AsTask(description: 'Rector')]
+function rector(bool $dryRun = false): int
+{
+    if ($dryRun) {
+        return docker_exit_code(' ./vendor/bin/rector process --config rector.php --dry-run', workDir: '/var/www/tools/rector');
+    }
+
+    return docker_exit_code(' ./vendor/bin/rector process --config rector.php', workDir: '/var/www/tools/rector');
 }
