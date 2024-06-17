@@ -1,0 +1,3 @@
+aropixel_admin:
+    resource: '@AropixelAdminBundle/Resources/config/routing/admin.yml'
+    prefix: /admin
