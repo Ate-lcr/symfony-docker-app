@@ -50,3 +50,16 @@ services:
             - 8090:80
         environment:
             PMA_HOST: db
+
+    mail:
+        image: axllent/mailpit
+        environment:
+            - MP_SMTP_BIND_ADDR=0.0.0.0:25
+        labels:
+            - "traefik.enable=true"
+            - "project-name=${PROJECT_NAME}"
+            - "traefik.http.routers.${PROJECT_NAME}-mail.rule=Host(`mail.${PROJECT_ROOT_DOMAIN}`)"
+            - "traefik.http.routers.${PROJECT_NAME}-mail.tls=true"
+            - "traefik.http.services.mail.loadbalancer.server.port=8025"
+        profiles:
+            - default

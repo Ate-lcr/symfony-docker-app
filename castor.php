@@ -139,7 +139,7 @@ function migrate(): void
 {
     docker_compose_run('./bin/console doctrine:database:create --if-not-exists', workDir: '/var/www/app');
 
-    if (!count(glob(sprintf('%s/app/migrations/*.php', variable('root_dir'))))) {
+    if (count(glob(sprintf('%s/app/migrations/*.php', variable('root_dir')))) === 0) {
         io()->section('Create migrations');
         docker_compose_run('bin/console doctrine:migrations:diff -n', workDir: '/var/www/app');
     }

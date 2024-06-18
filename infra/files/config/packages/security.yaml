@@ -51,4 +51,5 @@ security:
     access_control:
         - { path: ^/admin/login$, role: PUBLIC_ACCESS }
         - { path: ^/admin/reset/, role: PUBLIC_ACCESS }
+        - { path: ^/admin/activation/, role: PUBLIC_ACCESS }
         - { path: ^/admin, role: ROLE_ADMIN }
