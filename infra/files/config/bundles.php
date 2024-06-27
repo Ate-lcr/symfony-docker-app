@@ -9,5 +9,5 @@ return [
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
-    \Aropixel\AdminBundle\src\AropixelAdminBundle::class => ['all' => true],
+    Aropixel\AdminBundle\AropixelAdminBundle::class => ['all' => true],
 ];
